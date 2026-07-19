@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet + Turf.js Geofencing</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com" />
+    <style>
+        #map { height: 100vh; width: 100%; }
+        #status-box {
+            position: absolute; top: 10px; left: 50px; z-index: 1000;
+            background: white; padding: 15px; border-radius: 8px;
+            font-family: Arial, sans-serif; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="status-box">
+        <strong>Geofence Status:</strong> <span id="status">Initializing...</span>
+    </div>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com"></script>
+    <!-- Turf.js -->
+    <script src="https://jsdelivr.net"></script>
+
+    <script>
+        // 1. Initialize the Leaflet Map centered near your location (Cabuyao, PH area)
+        const map = L.map('map').setView([14.2468, 121.1306], 15);
+
+        // Add OpenStreetMap base tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // 2. Define your Geofence Area as a Turf.js Polygon
+        // CRITICAL NOTE: Turf.js expects coordinates in [Longitude, Latitude] format (opposite of Leaflet)
+        const fenceGeoJSON = turf.polygon([[
+            [121.125, 14.242],
+            [121.138, 14.242],
+            [121.138, 14.252],
+            [121.125, 14.252],
+            [121.125, 14.242] // The last coordinate must match the first coordinate to close the shape
+        ]]);
+
+        // Convert Turf GeoJSON back to Leaflet Layer format to draw it visually on the map
+        const geofenceLayer = L.geoJSON(fenceGeoJSON, {
+            style: { color: '#ff4444', weight: 3, fillOpacity: 0.2 }
+        }).addTo(map);
+
+        // 3. Set up User Tracking Elements
+        let userMarker = null;
+        let wasInsideFence = null; // State tracker to prevent duplicate notifications
+
+        // This placeholder triggers your backend server SMS endpoint built in previous steps
+        function callSmsBackend(action) {
+            console.log(`[API CALL] Sending SMS alert: User has ${action} the zone.`);
+            document.getElementById('status').innerText = `Just ${action.toUpperCase()} the zone! (SMS Triggereded)`;
+            
+            /* Un-comment this block when your backend SMS route from step 2 is ready:
+            fetch('https://your-backend-server.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event: action, phoneNumber: "+1234567890" })
+            });
+            */
+        }
+
+        // 4. Start Tracking Browser Location Updates
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(position => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+
+                // Update user marker position on map UI
+                if (!userMarker) {
+                    userMarker = L.marker([lat, lng]).addTo(map).bindPopup("You are here").openPopup();
+                } else {
+                    userMarker.setLatLng([lat, lng]);
+                }
+
+                // 5. Use Turf.js to evaluate Point-In-Polygon rules
+                // Reminder: [Longitude, Latitude] order for Turf points
+                const userPoint = turf.point([lng, lat]);
+                const currentlyInside = turf.booleanPointInPolygon(userPoint, fenceGeoJSON);
+
+                // Initialize state on first location capture
+                if (wasInsideFence === null) {
+                    wasInsideFence = currentlyInside;
+                    document.getElementById('status').innerText = currentlyInside ? "Inside Zone" : "Outside Zone";
+                    return;
+                }
+
+                // Evaluate State Transitions (Crossed Boundary Line)
+                if (currentlyInside && !wasInsideFence) {
+                    callSmsBackend('entered');
+                    wasInsideFence = true;
+                } 
+                else if (!currentlyInside && wasInsideFence) {
+                    callSmsBackend('exited');
+                    wasInsideFence = false;
+                } 
+                else {
+                    // State hasn't changed; update text status box statically
+                    document.getElementById('status').innerText = currentlyInside ? "Still Inside Zone" : "Still Outside Zone";
+                }
+
+            }, error => {
+                console.error("Location tracking error:", error);
+                document.getElementById('status').innerText = "Location access denied.";
+            }, {
+                enableHighAccuracy: true, // Forces phone to drop cell-tower tracking and wake up full GPS hardware
+                maximumAge: 0,
+                timeout: 5000
+            });
+        } else {
+            alert("Your browser does not support Geolocation.");
+        }
+    </script>
+</body>
+</html>
