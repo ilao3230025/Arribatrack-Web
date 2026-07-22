@@ -2,6 +2,7 @@ const form = document.getElementById('form')
 const firstname_input = document.getElementById('firstname_input')
 const lastname_input = document.getElementById('lastname_input')
 const email_input = document.getElementById('email_input')
+const phone_input = document.getElementById('phone_input')
 const password_input = document.getElementById('password_input')
 const repeat_password_input = document.getElementById('repeat_password_input')
 const error_message = document.getElementById('error-message')
@@ -25,7 +26,7 @@ form.addEventListener('submit', (e) => {
     }
 })
 
-function getSignupFormErrors(firstname, lastname, email, password, repeatPassword){
+function getSignupFormErrors(firstname, lastname, email, phone, password, repeatPassword){
     let errors = []
 
     if(firstname === '' || firstname == null){
@@ -39,7 +40,11 @@ function getSignupFormErrors(firstname, lastname, email, password, repeatPasswor
     if(email === '' || email == null){
         errors.push('Email is required')
         email_input.parentElement.classList.add('incorrect')
-    } 
+    }
+    if(phone === '' || phone == null){
+        errors.push('Contact Number is required')
+        phone_input.parentElement.classList.add('incorrect')
+    }
     if(password === '' || password == null){
         errors.push('Password is required')
         password_input.parentElement.classList.add('incorrect')
@@ -72,7 +77,7 @@ function getLoginFormErrors(email, password){
     return errors;
 }
 
-const allInputs = [firstname_input, lastname_input, email_input, password_input, repeat_password_input].filter(input => input != null)
+const allInputs = [firstname_input, lastname_input, email_input, phone_input, password_input, repeat_password_input].filter(input => input != null)
 
 allInputs.forEach(input => {
     input.addEventListener('input', () => {
