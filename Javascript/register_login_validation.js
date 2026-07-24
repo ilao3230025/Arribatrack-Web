@@ -12,7 +12,7 @@ form.addEventListener('submit', (e) => {
 
     if(firstname_input){
         //if we have a firstname input, then we are in the signup
-        errors = getSignupFormErrors(firstname_input.value, lastname_input.value, email_input.value, password_input.value, repeat_password_input.value)
+        errors = getSignupFormErrors(firstname_input.value, lastname_input.value, email_input.value, phone_input.value, password_input.value, repeat_password_input.value)
     }
     else{
         //If we don't have a firstname input, then we are in the login

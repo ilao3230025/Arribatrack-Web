@@ -24,7 +24,7 @@
     var messageDiv=document.getElementById(divId);
     messageDiv.style.display="block";
     messageDiv.innerHTML=message;
-    messageDiv.style.opacity-1;
+    messageDiv.style.opacity=1;
     setTimeout(function(){
        messageDiv.style.opacity=0;
     }, 5000)
@@ -34,7 +34,6 @@
   const register=document.getElementById('submitRegister');
   if (register){
   register.addEventListener('click', (event)=>{
-    event.preventDefault();
     const firstName=document.getElementById('firstname_input').value;
     const lastName=document.getElementById('lastname_input').value;
     const email=document.getElementById('email_input').value;
@@ -79,7 +78,6 @@
   const signIn=document.getElementById('submitSignIn');
   if (signIn){
   signIn.addEventListener('click', (event)=>{
-    event.preventDefault();
     const email=document.getElementById('email_input').value;
     const password=document.getElementById('password_input').value;
     const auth=getAuth();
