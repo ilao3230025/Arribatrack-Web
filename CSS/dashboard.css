@@ -134,6 +134,25 @@ button:hover{
     display: none;
 }
 
+#eta-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--base-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 10px;
+  padding: 10px 20px;
+  z-index: 999;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.leaflet-routing-container {
+  display: none;
+}
+
 @media screen and (max-width: 700px){
     #map{
         width: min(700px, 100%);

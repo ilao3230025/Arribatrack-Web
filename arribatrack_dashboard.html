@@ -3,16 +3,28 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1,0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARRIBATRACK</title>
 
     <!--CSS Stylesheet for Leaflet-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!--Script for Leaflet-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!--DO NOT CHANGE THE ORDER. Leaflet stylesheet should be called before the script-->
 
+    <!--Leaflet Routing Machine CSS-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+
+    <!--Dashboard CSS-->
     <link rel="stylesheet" href="CSS/dashboard.css">
+
+    <!--Script for Leaflet-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!--Leaflet Routing Machine JS-->
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+    <!-- Mapbox plugin for Leaflet Routing Machine -->
+    <script src="https://unpkg.com/lrm-mapbox/dist/lrm-mapbox.js"></script>
+
+    <!--Dashboard JS-->
     <script type="module" src="Javascript/dashboard.js" defer></script>
 
     <!--Navbar Script-->
@@ -40,6 +52,10 @@
     <div id="overlay" onclick="closeSidebar()"></div>
 
     <div id="map"></div>
+
+    <div id="eta-panel">
+    <p id="eta-display">Calculating ETA...</p>
+    </div>
     
 </body>
 </html>
