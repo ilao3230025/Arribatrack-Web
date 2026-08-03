@@ -199,7 +199,7 @@ async function initializeDashboard(userId) {
   }
 }
 
-// ── Admin Tab Switcher ────────────────────────────────────────────────────
+// Admin Tab Switcher
 function switchAdminTab(tab) {
   const driversTab = document.getElementById('admin-drivers-tab');
   const reportsTab = document.getElementById('admin-reports-tab');
@@ -217,9 +217,8 @@ function switchAdminTab(tab) {
     tabs[1].classList.add('active-tab');
   }
 }
-window.switchAdminTab = switchAdminTab;
 
-// ── Driver Dashboard ──────────────────────────────────────────────────────
+// Driver Dashboard
 function initDriverDashboard(userId) {
   console.log('Loading driver dashboard');
   document.getElementById('driver-panel').style.display = 'block';
@@ -227,16 +226,17 @@ function initDriverDashboard(userId) {
   startDriverTracking(userId);
 }
 
-// ── End Trip (placeholder) ─────────────────────────────────────────────────
+// End Trip (placeholder)
 function endTrip() {
   alert('Trip ended!');
   // TODO: implement full Gemini AI trip summary
 }
-window.closeTripSummary = function() { // ✅ expose to HTML onclick
+window.switchAdminTab = switchAdminTab;
+window.closeTripSummary = function() {
   document.getElementById('trip-summary-modal').style.display = 'none';
 };
 
-// ── Parent Dashboard ──────────────────────────────────────────────────────
+// Parent Dashboard
 async function initParentDashboard(userId) {
   console.log('Loading parent dashboard');
   document.getElementById('parent-panel').style.display = 'block';
@@ -268,7 +268,7 @@ async function initParentDashboard(userId) {
   }
 }
 
-// ── Admin Dashboard ───────────────────────────────────────────────────────
+// Admin Dashboard
 async function initAdminDashboard() {
   console.log('Loading admin dashboard');
   document.getElementById('admin-panel').style.display = 'block';
@@ -280,7 +280,7 @@ async function initAdminDashboard() {
   loadTripReports();
 }
 
-// ── Load All Drivers for Admin ────────────────────────────────────────────
+// Load All Drivers for Admin
 async function loadAllDrivers() {
   try {
     const { getDocs, collection, query, where } = await import(
@@ -347,7 +347,7 @@ async function loadAllDrivers() {
   }
 }
 
-// ── Load Trip Reports for Admin ───────────────────────────────────────────
+// Load Trip Reports for Admin
 function loadTripReports() {
   const reportsRef = ref(rtdb, 'trip_reports');
   onValue(reportsRef, (snapshot) => {
@@ -411,7 +411,7 @@ function initParentRouting(driverId) {
     const isOnline = timeSinceUpdate < OFFLINE_THRESHOLD;
 
     if (!isOnline) {
-      // Driver is offline — show overlay
+      // Driver is offline/show overlay
       offlineOverlay.style.display = 'flex';
       marker.setOpacity(0);
 
@@ -433,7 +433,7 @@ function initParentRouting(driverId) {
       return;
     }
 
-    // Driver is online — hide overlay and show map
+    // Driver is online/hide overlay and show map
     offlineOverlay.style.display = 'none';
     updateDriverLocation(data.lat, data.lng);
 
