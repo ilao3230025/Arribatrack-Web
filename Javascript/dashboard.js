@@ -323,8 +323,8 @@ async function loadAllDrivers() {
         const data = snapshot.val();
         if (!data) return;
 
-        // Check if data is recent (within last 2 minutes)
-        const isOnline = Date.now() - data.timestamp < 120000;
+        // Check if data is recent (within last 1 minutes)
+        const isOnline = Date.now() - data.timestamp < 60000;
         const statusDot = document.getElementById(`status-${driverId}`);
         const etaSpan = document.getElementById(`driver-eta-${driverId}`);
 
@@ -389,14 +389,52 @@ function loadTripReports() {
   });
 }
 
-// ── Update ETA display for parent ─────────────────────────────────────────
-// Override routesfound to also update parent ETA display
+// Parent Routing with Online/Offline Detection
 function initParentRouting(driverId) {
   const driverRef = ref(rtdb, `vehicles/${driverId}`);
+  const OFFLINE_THRESHOLD = 60000;
   onValue(driverRef, (snapshot) => {
     const data = snapshot.val();
-    if (!data) return;
+    const offlineOverlay = document.getElementById('driver-offline-overlay');
+    const offlineLastSeen = document.getElementById('offline-last-seen');
 
+    // No data at all — driver has never been online
+    if (!data) {
+      offlineOverlay.style.display = 'flex';
+      offlineLastSeen.textContent = 'Driver has not started a trip yet.';
+      document.getElementById('parent-eta-display').textContent = 'ETA: Unavailable';
+      return;
+    }
+
+    // Check if driver data is recent
+    const timeSinceUpdate = Date.now() - data.timestamp;
+    const isOnline = timeSinceUpdate < OFFLINE_THRESHOLD;
+
+    if (!isOnline) {
+      // Driver is offline — show overlay
+      offlineOverlay.style.display = 'flex';
+      marker.setOpacity(0);
+
+      // Show last seen time
+      const lastSeen = new Date(data.timestamp);
+      const minutesAgo = Math.round(timeSinceUpdate / 60000);
+      offlineLastSeen.textContent = minutesAgo < 60
+        ? `Last seen ${minutesAgo} minute${minutesAgo !== 1 ? 's' : ''} ago`
+        : `Last seen at ${lastSeen.toLocaleTimeString()}`;
+
+      document.getElementById('parent-eta-display').textContent = 'ETA: Unavailable';
+
+      // Remove route if exists
+      if (routingControl) {
+        routingControl.remove();
+        routingControl = null;
+      }
+
+      return;
+    }
+
+    // Driver is online — hide overlay and show map
+    offlineOverlay.style.display = 'none';
     updateDriverLocation(data.lat, data.lng);
 
     if (routingControl) {
@@ -421,9 +459,7 @@ function initParentRouting(driverId) {
 
       routingControl.on('routesfound', (e) => {
         const totalSeconds = e.routes[0].summary.totalTime;
-        const etaText = formatETA(totalSeconds);
-        // Update parent ETA display instead of driver ETA
-        document.getElementById('parent-eta-display').textContent = `ETA: ${etaText}`;
+        document.getElementById('parent-eta-display').textContent = `ETA: ${formatETA(totalSeconds)}`;
       });
 
       routingControl.on('routingerror', () => {

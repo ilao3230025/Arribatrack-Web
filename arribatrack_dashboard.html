@@ -58,51 +58,61 @@
 
     <div id="map"></div>
 
-  <!-- ── DRIVER PANEL ── -->
-  <div id="driver-panel" class="role-panel" style="display: none;">
-    <div id="eta-panel">
-      <p id="eta-display">Calculating ETA...</p>
-    </div>
-    <button id="end-trip-button">End Trip</button>
-  </div>
-
-  <!-- ── PARENT PANEL ── -->
-  <div id="parent-panel" class="role-panel" style="display: none;">
-    <div id="driver-info-card">
-      <h3 id="driver-name">Driver: —</h3>
-      <p id="driver-plate">Plate: —</p>
-      <p id="parent-eta-display">ETA: Calculating...</p>
-    </div>
-  </div>
-
-  <!-- ── ADMIN PANEL ── -->
-  <div id="admin-panel" class="role-panel" style="display: none;">
-    <div id="admin-tabs">
-      <button class="admin-tab active-tab" onclick="switchAdminTab('drivers')">Drivers</button>
-      <button class="admin-tab" onclick="switchAdminTab('reports')">Trip Reports</button>
+    <!-- ── DRIVER PANEL ── -->
+    <div id="driver-panel" class="role-panel" style="display: none;">
+        <div id="eta-panel">
+            <p id="eta-display">Calculating ETA...</p>
+        </div>
+        <button id="end-trip-button">End Trip</button>
     </div>
 
-    <!-- Drivers Tab -->
-    <div id="admin-drivers-tab">
-      <h3>Active Drivers</h3>
-      <ul id="driver-list"></ul>
+    <!-- ── PARENT PANEL ── -->
+    <div id="parent-panel" class="role-panel" style="display: none;">
+        <div id="driver-info-card">
+            <h3 id="driver-name">Driver: —</h3>
+            <p id="driver-plate">Plate: —</p>
+            <p id="parent-eta-display">ETA: Calculating...</p>
+        </div>
     </div>
 
-    <!-- Reports Tab -->
-    <div id="admin-reports-tab" style="display: none;">
-      <h3>Trip Reports</h3>
-      <ul id="reports-list"></ul>
+    <!-- Driver Offline Overlay -->
+    <div id="driver-offline-overlay" style="display: none;">
+        <div id="driver-offline-card">
+            <div id="offline-icon">📍</div>
+            <h3>Driver is Offline</h3>
+            <p>Your driver has not started their trip yet or has gone offline. The map will update automatically when they come online.</p>
+            <p id="offline-last-seen"></p>
+        </div>
     </div>
-  </div>
 
-  <!-- Trip Summary Modal (Driver only) -->
-  <div id="trip-summary-modal" style="display: none;">
-    <div id="trip-summary-content">
-      <h2>Trip Summary</h2>
-      <div id="trip-summary-loading">Generating AI summary...</div>
-      <div id="trip-summary-text" style="display: none;"></div>
-      <button onclick="closeTripSummary()">Close</button>
+    <!-- ── ADMIN PANEL ── -->
+    <div id="admin-panel" class="role-panel" style="display: none;">
+        <div id="admin-tabs">
+            <button class="admin-tab active-tab" onclick="switchAdminTab('drivers')">Drivers</button>
+            <button class="admin-tab" onclick="switchAdminTab('reports')">Trip Reports</button>
+        </div>
+
+        <!-- Drivers Tab -->
+        <div id="admin-drivers-tab">
+            <h3>Active Drivers</h3>
+            <ul id="driver-list"></ul>
+        </div>
+
+        <!-- Reports Tab -->
+        <div id="admin-reports-tab" style="display: none;">
+            <h3>Trip Reports</h3>
+            <ul id="reports-list"></ul>
+        </div>
     </div>
-  </div>
+
+    <!-- Trip Summary Modal (Driver only) -->
+    <div id="trip-summary-modal" style="display: none;">
+        <div id="trip-summary-content">
+            <h2>Trip Summary</h2>
+            <div id="trip-summary-loading">Generating AI summary...</div>
+            <div id="trip-summary-text" style="display: none;"></div>
+            <button onclick="closeTripSummary()">Close</button>
+        </div>
+    </div>
 </body>
 </html>
