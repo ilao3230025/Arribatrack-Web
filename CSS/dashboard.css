@@ -39,6 +39,217 @@ body{
   font-weight: 600;
 }
 
+.role-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  width: min(400px, 90%);
+}
+
+#eta-panel {
+  background: white;
+  border: 1px solid var(--accent-color);
+  border-radius: 10px;
+  padding: 12px 20px;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  margin-bottom: 8px;
+}
+
+#end-trip-button {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75em;
+  background-color: #c0392b;
+  color: white;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+}
+
+#end-trip-button:hover {
+  background-color: #922b21;
+}
+
+#driver-info-card {
+  background: white;
+  border: 1px solid var(--accent-color);
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+#driver-info-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 4px;
+}
+
+#driver-info-card p {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin: 2px 0;
+}
+
+#parent-eta-display {
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-top: 8px !important;
+  font-size: 1rem !important;
+}
+
+#admin-panel {
+  bottom: 20px;
+  left: 20px;
+  transform: none;
+  width: min(320px, 90%);
+  background: white;
+  border: 1px solid var(--accent-color);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-tab {
+  flex: 1;
+  border: 1px solid var(--accent-color);
+  border-radius: 6px;
+  padding: 6px;
+  background: white;
+  color: var(--accent-color);
+  font-family: Poppins, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+}
+
+.admin-tab:hover,
+.admin-tab.active-tab {
+  background: var(--accent-color);
+  color: white;
+  text-decoration: none;
+}
+
+#admin-panel h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 8px;
+}
+
+#driver-list,
+#reports-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#driver-list li,
+#reports-list li {
+  background: var(--input-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.driver-status-online {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #27ae60;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.driver-status-offline {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #e74c3c;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+#trip-summary-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#trip-summary-content {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: min(500px, 90%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#trip-summary-content h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0;
+}
+
+#trip-summary-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-color);
+  white-space: pre-wrap;
+}
+
+#trip-summary-loading {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.6;
+  font-style: italic;
+}
+
+#trip-summary-content button {
+  align-self: flex-end;
+  border: none;
+  border-radius: 1000px;
+  padding: 0.5em 1.5em;
+  background-color: var(--accent-color);
+  color: white;
+  font-family: Poppins, sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+}
+
+#trip-summary-content button:hover {
+  background-color: var(--text-color);
+  text-decoration: none;
+}
+
 nav{
     background-color: var(--base-color);
     border-bottom: 1px solid var(--accent-color);
@@ -145,21 +356,6 @@ button:hover{
     inset: 0;
     z-index: 9;
     display: none;
-}
-
-#eta-panel {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--base-color);
-  border: 1px solid var(--accent-color);
-  border-radius: 10px;
-  padding: 10px 20px;
-  z-index: 999;
-  font-weight: 600;
-  font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .leaflet-routing-container {

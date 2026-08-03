@@ -185,7 +185,7 @@ async function initializeDashboard(userId) {
     if (userRole === 'driver') {
       initDriverDashboard(userId);
     } else if (userRole === 'parent') {
-      initParentDashboard();
+      initParentDashboard(userId);
     } else if (userRole === 'admin') {
       initAdminDashboard();
     } else {
@@ -199,24 +199,238 @@ async function initializeDashboard(userId) {
   }
 }
 
+// ── Admin Tab Switcher ────────────────────────────────────────────────────
+function switchAdminTab(tab) {
+  const driversTab = document.getElementById('admin-drivers-tab');
+  const reportsTab = document.getElementById('admin-reports-tab');
+  const tabs = document.querySelectorAll('.admin-tab');
+
+  if (tab === 'drivers') {
+    driversTab.style.display = 'block';
+    reportsTab.style.display = 'none';
+    tabs[0].classList.add('active-tab');
+    tabs[1].classList.remove('active-tab');
+  } else {
+    driversTab.style.display = 'none';
+    reportsTab.style.display = 'block';
+    tabs[0].classList.remove('active-tab');
+    tabs[1].classList.add('active-tab');
+  }
+}
+window.switchAdminTab = switchAdminTab;
+
+// ── Driver Dashboard ──────────────────────────────────────────────────────
 function initDriverDashboard(userId) {
   console.log('Loading driver dashboard');
-  //Placeholder code
-  const endTripButton = document.getElementById('end-trip-button');
-  if (endTripButton) endTripButton.style.display = 'block';
+  document.getElementById('driver-panel').style.display = 'block';
+  document.getElementById('end-trip-button').addEventListener('click', endTrip);
   startDriverTracking(userId);
 }
 
-function initParentDashboard() {
+// ── End Trip (placeholder) ─────────────────────────────────────────────────
+function endTrip() {
+  alert('Trip ended!');
+  // TODO: implement full Gemini AI trip summary
+}
+window.closeTripSummary = function() { // ✅ expose to HTML onclick
+  document.getElementById('trip-summary-modal').style.display = 'none';
+};
+
+// ── Parent Dashboard ──────────────────────────────────────────────────────
+async function initParentDashboard(userId) {
   console.log('Loading parent dashboard');
-  // TODO: replace with parent's assigned driver ID from Firestore
-  watchDriverLocation('driver123');
+  document.getElementById('parent-panel').style.display = 'block';
+
+  try {
+    // Get parent's assigned driver from Firestore
+    const parentDoc = await getDoc(doc(db, 'users', userId));
+    const parentData = parentDoc.data();
+    const assignedDriverId = parentData.assignedDriver; // set this in Firestore
+
+    if (!assignedDriverId) {
+      document.getElementById('driver-name').textContent = 'No driver assigned yet';
+      return;
+    }
+
+    // Get driver info from Firestore
+    const driverDoc = await getDoc(doc(db, 'users', assignedDriverId));
+    const driverData = driverDoc.data();
+
+    document.getElementById('driver-name').textContent = `Driver: ${driverData.firstName} ${driverData.lastName}`;
+    document.getElementById('driver-plate').textContent = `Plate: ${driverData.plateNumber || '—'}`;
+
+    // Watch driver location and update ETA display
+    initParentRouting(assignedDriverId);
+
+  } catch (error) {
+    console.error('Error loading parent dashboard:', error);
+    document.getElementById('driver-name').textContent = 'Error loading driver info';
+  }
 }
 
-function initAdminDashboard() {
+// ── Admin Dashboard ───────────────────────────────────────────────────────
+async function initAdminDashboard() {
   console.log('Loading admin dashboard');
-  // TODO: implement multi-driver tracking for admin view
-  watchDriverLocation('driver123');
+  document.getElementById('admin-panel').style.display = 'block';
+
+  // Load all drivers from Firestore
+  loadAllDrivers();
+
+  // Load trip reports
+  loadTripReports();
+}
+
+// ── Load All Drivers for Admin ────────────────────────────────────────────
+async function loadAllDrivers() {
+  try {
+    const { getDocs, collection, query, where } = await import(
+      "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js"
+    );
+
+    const driversQuery = query(
+      collection(db, 'users'),
+      where('role', '==', 'driver')
+    );
+
+    const driversSnapshot = await getDocs(driversQuery);
+    const driverList = document.getElementById('driver-list');
+    driverList.innerHTML = '';
+
+    driversSnapshot.forEach((driverDoc) => {
+      const driver = driverDoc.data();
+      const driverId = driverDoc.id;
+
+      // Create list item
+      const li = document.createElement('li');
+      li.id = `driver-item-${driverId}`;
+      li.innerHTML = `
+        <span class="driver-status-offline" id="status-${driverId}"></span>
+        <strong>${driver.firstName} ${driver.lastName}</strong><br>
+        Plate: ${driver.plateNumber || '—'}<br>
+        <span id="driver-eta-${driverId}">Status: Offline</span>
+      `;
+      driverList.appendChild(li);
+
+      // Add driver marker to map
+      const driverMarker = L.marker([SCHOOL_LAT, SCHOOL_LNG], {
+        icon: myIcon,
+        opacity: 0
+      }).addTo(map).bindTooltip(`${driver.firstName} ${driver.lastName}`);
+
+      // Listen to this driver's location
+      const driverRef = ref(rtdb, `vehicles/${driverId}`);
+      onValue(driverRef, (snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+
+        // Check if data is recent (within last 2 minutes)
+        const isOnline = Date.now() - data.timestamp < 120000;
+        const statusDot = document.getElementById(`status-${driverId}`);
+        const etaSpan = document.getElementById(`driver-eta-${driverId}`);
+
+        if (isOnline) {
+          driverMarker.setLatLng([data.lat, data.lng]);
+          driverMarker.setOpacity(1);
+          statusDot.className = 'driver-status-online';
+          etaSpan.textContent = `Status: Active`;
+        } else {
+          driverMarker.setOpacity(0);
+          statusDot.className = 'driver-status-offline';
+          etaSpan.textContent = `Status: Offline`;
+        }
+      });
+    });
+
+  } catch (error) {
+    console.error('Error loading drivers:', error);
+    document.getElementById('driver-list').innerHTML = '<li>Error loading drivers</li>';
+  }
+}
+
+// ── Load Trip Reports for Admin ───────────────────────────────────────────
+function loadTripReports() {
+  const reportsRef = ref(rtdb, 'trip_reports');
+  onValue(reportsRef, (snapshot) => {
+    const data = snapshot.val();
+    const reportsList = document.getElementById('reports-list');
+    reportsList.innerHTML = '';
+
+    if (!data) {
+      reportsList.innerHTML = '<li>No trip reports yet</li>';
+      return;
+    }
+
+    // Flatten all reports from all drivers
+    const allReports = [];
+    Object.entries(data).forEach(([driverId, reports]) => {
+      Object.entries(reports).forEach(([reportId, report]) => {
+        allReports.push({ ...report, driverId });
+      });
+    });
+
+    // Sort by most recent first
+    allReports.sort((a, b) => b.timestamp - a.timestamp);
+
+    // Display reports
+    allReports.forEach((report) => {
+      const li = document.createElement('li');
+      const date = new Date(report.timestamp).toLocaleDateString();
+      const time = new Date(report.startTime).toLocaleTimeString();
+      li.innerHTML = `
+        <strong>${date} — ${time}</strong><br>
+        Duration: ${report.durationMinutes} min<br>
+        Distance: ${report.distanceKm} km<br>
+        Avg Speed: ${report.avgSpeedKmh} km/h<br>
+        Violations: ${report.geofenceViolations}<br>
+        <em>${report.aiSummary ? report.aiSummary.substring(0, 100) + '...' : 'No summary'}</em>
+      `;
+      reportsList.appendChild(li);
+    });
+  });
+}
+
+// ── Update ETA display for parent ─────────────────────────────────────────
+// Override routesfound to also update parent ETA display
+function initParentRouting(driverId) {
+  const driverRef = ref(rtdb, `vehicles/${driverId}`);
+  onValue(driverRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    updateDriverLocation(data.lat, data.lng);
+
+    if (routingControl) {
+      routingControl.setWaypoints([
+        L.latLng(data.lat, data.lng),
+        L.latLng(SCHOOL_LAT, SCHOOL_LNG)
+      ]);
+    } else {
+      routingControl = L.Routing.control({
+        waypoints: [
+          L.latLng(data.lat, data.lng),
+          L.latLng(SCHOOL_LAT, SCHOOL_LNG)
+        ],
+        router: L.Routing.mapbox(mapboxToken, {
+          profile: 'mapbox/driving'
+        }),
+        routeWhileDragging: false,
+        addWaypoints: false,
+        show: false,
+        fitSelectedRoutes: false
+      }).addTo(map);
+
+      routingControl.on('routesfound', (e) => {
+        const totalSeconds = e.routes[0].summary.totalTime;
+        const etaText = formatETA(totalSeconds);
+        // Update parent ETA display instead of driver ETA
+        document.getElementById('parent-eta-display').textContent = `ETA: ${etaText}`;
+      });
+
+      routingControl.on('routingerror', () => {
+        document.getElementById('parent-eta-display').textContent = 'ETA unavailable';
+      });
+    }
+  });
 }
 
 // Auth State
