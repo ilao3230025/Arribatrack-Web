@@ -3,13 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1,0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARRIBATRACK Register</title>
     <link rel="stylesheet" href="CSS/register_login.css">
-    <script type="text/javascript" src="Javascript/register_login_validation.js" defer></script>
+    <script type="module" src="Javascript/register_login_validation.js" defer></script>
 
-    <!--Firebase Script-->
-    <script type="module" src="Javascript/firebaseauth.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,36 +25,71 @@
                 </label>
                 <input type="text" name="firstname" id="firstname_input" placeholder="Firstname">
             </div>
+
             <div>
                 <label for="lastname_input">
                     <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px"><path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
                 </label>
                 <input type="text" name="lastname" id="lastname_input" placeholder="Lastname">
             </div>
+
             <div>
                 <label for="email_input">
                     <span>@</span>
                 </label>
                 <input type="email" name="email" id="email_input" placeholder="Email">
             </div>
+
             <div>
                 <label for="phone">
                     <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px"><path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"/></svg>
                 </label>
                 <input type="tel" name="phone" id="phone_input" placeholder="09XXXXXXXXX" pattern="09[0-9]{9}">
             </div>
+
+            <div>
+                <label for="role_input">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+                </label>
+                <select name="role" id="role_input">
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="parent">Parent</option>
+                    <option value="driver">Driver</option>
+                </select>
+            </div>
+
+            <!--Shows only when Parent is selected-->
+            <div id="driver-select-div" style="display: none;">
+                <label for="driver_select">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+                </label>
+                <select id="driver_select" name="assignedDriver">
+                    <option value="" disabled selected>Select your Driver</option>
+                </select>
+            </div>
+
+            <!--Shows only when Driver is selected-->
+            <div id="plate-number-div" style="display: none;">
+                <label for="plate_input">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px"><path d="M160-200v40q0 17-11.5 28.5T120-120q-17 0-28.5-11.5T80-160v-320l84-240q6-18 21.5-29t34.5-11h520q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T840-120q-17 0-28.5-11.5T800-160v-40H160Zm16-280h608l-42-120H218l-42 120Zm-16 80v120h640v-120H160Zm160 100q25 0 42.5-17.5T380-360q0-25-17.5-42.5T320-420q-25 0-42.5 17.5T260-360q0 25 17.5 42.5T320-300Zm320 0q25 0 42.5-17.5T700-360q0-25-17.5-42.5T640-420q-25 0-42.5 17.5T580-360q0 25 17.5 42.5T640-300ZM160-200h640-640Z"/></svg>
+                </label>
+                <input type="text" id="plate_input" name="plateNumber" placeholder="Plate Number (e.g. ABC 1234)">
+            </div>
+
             <div>
                 <label for="password_input">
                     <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm296.5-223.5Q560-327 560-360t-23.5-56.5Q513-440 480-440t-56.5 23.5Q400-393 400-360t23.5 56.5Q447-280 480-280t56.5-23.5ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/></svg>
                 </label>
                 <input type="password" name="password" id="password_input" placeholder="Password">
             </div>
+
             <div>
                 <label for="repeat_password_input">
                     <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm296.5-223.5Q560-327 560-360t-23.5-56.5Q513-440 480-440t-56.5 23.5Q400-393 400-360t23.5 56.5Q447-280 480-280t56.5-23.5ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/></svg>
                 </label>
                 <input type="password" name="repeat-password" id="repeat_password_input" placeholder="Repeat Password">
             </div>
+
             <button type="submit" id="submitRegister">Register</button>
         </form>
         <p>Already have an Account? <a href="index.html">Login</a></p>
