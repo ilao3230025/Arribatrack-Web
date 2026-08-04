@@ -92,6 +92,7 @@ function updateRoute(driverLat, driverLng) {
       router: L.Routing.mapbox(mapboxToken, {
         profile: 'mapbox/driving'
       }),
+      createMarker: function(i, waypoint, n) { return null; }, //Removes default marker
       routeWhileDragging: false,
       addWaypoints: false,
       show: false,
