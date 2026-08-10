@@ -494,10 +494,32 @@ window.closeTripSummary = function() {
   document.getElementById('trip-summary-modal').style.display = 'none';
 };
 
+// Check First Login
+async function checkFirstLogin(userId, assignedDriverId) {
+  try {
+    const { getDocs, collection: fsCollection } = await import(
+      "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js"
+    );
+
+    const childrenSnapshot = await getDocs(
+      fsCollection(db, 'users', userId, 'children')
+    );
+
+    if (childrenSnapshot.empty) {
+      document.getElementById('first-login-modal').style.display = 'flex';
+      addChildForm(); // from children.js
+    }
+  } catch (error) {
+    console.error('Error checking first login:', error);
+  }
+}
+
 // Parent Dashboard
 async function initParentDashboard(userId) {
   console.log('Loading parent dashboard');
   document.getElementById('parent-panel').style.display = 'block';
+
+  let assignedDriverId = null;
 
   try {
     // Get parent's assigned driver from Firestore
@@ -528,7 +550,9 @@ async function initParentDashboard(userId) {
     document.getElementById('driver-name').textContent = 'Error loading driver info';
   }
 
-  watchGeofenceStatus(assignedDriverId);//Watches Driver Geofence Status
+  if (assignedDriverId) {
+    watchGeofenceStatus(assignedDriverId);
+  }
 }
 
 // Admin Dashboard
