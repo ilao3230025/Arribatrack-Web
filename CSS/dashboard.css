@@ -26,6 +26,298 @@ body{
     overflow: hidden;
 }
 
+#auth-loading {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.role-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  width: min(400px, 90%);
+}
+
+#eta-panel {
+  background: white;
+  border: 1px solid var(--accent-color);
+  border-radius: 10px;
+  padding: 12px 20px;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  margin-bottom: 8px;
+}
+
+#end-trip-button {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75em;
+  background-color: #c0392b;
+  color: white;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+}
+
+#end-trip-button:hover {
+  background-color: #922b21;
+}
+
+#driver-info-card {
+  background: white;
+  border: 1px solid var(--accent-color);
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+#driver-info-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 4px;
+}
+
+#driver-info-card p {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin: 2px 0;
+}
+
+#driver-offline-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+#driver-offline-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  width: min(340px, 90%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+
+#offline-icon {
+  font-size: 3rem;
+  filter: grayscale(100%);
+}
+
+#driver-offline-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0;
+}
+
+#driver-offline-card p {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin: 0;
+}
+
+#offline-last-seen {
+  font-size: 0.8rem !important;
+  color: var(--text-color) !important;
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.driver-online-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  background: #27ae60;
+}
+
+.driver-offline-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  background: #e74c3c;
+}
+
+#parent-eta-display {
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-top: 8px !important;
+  font-size: 1rem !important;
+}
+
+#admin-panel {
+  bottom: 20px;
+  left: 20px;
+  transform: none;
+  width: min(320px, 90%);
+  background: white;
+  border: 1px solid var(--accent-color);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-tab {
+  flex: 1;
+  border: 1px solid var(--accent-color);
+  border-radius: 6px;
+  padding: 6px;
+  background: white;
+  color: var(--accent-color);
+  font-family: Poppins, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+}
+
+.admin-tab:hover,
+.admin-tab.active-tab {
+  background: var(--accent-color);
+  color: white;
+  text-decoration: none;
+}
+
+#admin-panel h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 8px;
+}
+
+#driver-list,
+#reports-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#driver-list li,
+#reports-list li {
+  background: var(--input-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.driver-status-online {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #27ae60;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.driver-status-offline {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #e74c3c;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+#trip-summary-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#trip-summary-content {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: min(500px, 90%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#trip-summary-content h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0;
+}
+
+#trip-summary-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-color);
+  white-space: pre-wrap;
+}
+
+#trip-summary-loading {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.6;
+  font-style: italic;
+}
+
+#trip-summary-content button {
+  align-self: flex-end;
+  border: none;
+  border-radius: 1000px;
+  padding: 0.5em 1.5em;
+  background-color: var(--accent-color);
+  color: white;
+  font-family: Poppins, sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+}
+
+#trip-summary-content button:hover {
+  background-color: var(--text-color);
+  text-decoration: none;
+}
+
 nav{
     background-color: var(--base-color);
     border-bottom: 1px solid var(--accent-color);
@@ -132,6 +424,367 @@ button:hover{
     inset: 0;
     z-index: 9;
     display: none;
+}
+
+.leaflet-routing-container {
+  display: none;
+}
+
+#first-login-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+#first-login-content {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  width: min(500px, 90%);
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+#first-login-content h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0;
+}
+
+#first-login-content > p {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.child-form {
+  background: var(--input-color);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.child-form input,
+.child-form select {
+  width: 100%;
+  box-sizing: border-box;
+  height: 42px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  border: 2px solid white;
+  background: white;
+  color: var(--text-color);
+  transition: 150ms ease;
+  appearance: none;
+}
+
+.child-form input:focus,
+.child-form select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.child-form input::placeholder {
+  color: var(--text-color);
+  opacity: 0.5;
+}
+
+.child-form label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  text-align: left;
+}
+
+.remove-child-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #e74c3c;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.remove-child-button:hover {
+  color: #c0392b;
+  text-decoration: none;
+}
+
+#add-child-button {
+  background: none;
+  border: 2px dashed var(--accent-color);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--accent-color);
+  font-family: Poppins, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+  width: 100%;
+}
+
+#add-child-button:hover {
+  background: var(--input-color);
+  text-decoration: none;
+}
+
+#save-children-button {
+  background: var(--accent-color);
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  color: white;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+  width: 100%;
+}
+
+#save-children-button:hover {
+  background: var(--text-color);
+  text-decoration: none;
+}
+
+#students-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+#students-content {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  width: min(460px, 90%);
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#students-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#students-header h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0;
+}
+
+#students-header button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+}
+
+#students-trip-date {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  opacity: 0.6;
+  margin: 0;
+  text-align: left;
+}
+
+#students-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.student-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--input-color);
+  border-radius: 10px;
+  padding: 12px 16px;
+  gap: 12px;
+}
+
+.student-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  flex: 1;
+}
+
+.student-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.student-details {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  opacity: 0.6;
+}
+
+.attendance-toggle {
+  display: flex;
+  gap: 6px;
+}
+
+.attendance-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: Poppins, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+}
+
+.attendance-btn.present {
+  background: #e8f5e9;
+  color: #27ae60;
+}
+
+.attendance-btn.present.active {
+  background: #27ae60;
+  color: white;
+}
+
+.attendance-btn.absent {
+  background: #fdecea;
+  color: #e74c3c;
+}
+
+.attendance-btn.absent.active {
+  background: #e74c3c;
+  color: white;
+}
+
+.attendance-btn:hover {
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+#save-attendance-button {
+  background: var(--accent-color);
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  color: white;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+  width: 100%;
+}
+
+#save-attendance-button:hover {
+  background: var(--text-color);
+  text-decoration: none;
+}
+
+#geofence-alert {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: #27ae60;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-align: center;
+  width: min(400px, 90%);
+}
+
+body.dark-mode {
+  --base-color: #1a1a2e;
+  --text-color: #e0e0e0;
+  --input-color: #2a2a3e;
+  --accent-color: #4a6fa5;
+}
+
+body.dark-mode #auth-loading {
+  background: #1a1a2e;
+  color: #e0e0e0;
+}
+
+body.dark-mode nav {
+  background-color: #16213e;
+  border-color: #2a2a3e;
+}
+
+body.dark-mode #driver-info-card,
+body.dark-mode #eta-panel,
+body.dark-mode #admin-panel,
+body.dark-mode #driver-offline-card,
+body.dark-mode #trip-summary-content,
+body.dark-mode #first-login-content,
+body.dark-mode #students-content {
+  background: #16213e;
+  border-color: #2a2a3e;
+  color: #e0e0e0;
+}
+
+body.dark-mode #driver-list li,
+body.dark-mode #reports-list li,
+body.dark-mode .student-item,
+body.dark-mode .child-form {
+  background: #2a2a3e;
+}
+
+body.large-text {
+  font-size: 15pt;
+}
+
+body.large-text #eta-display,
+body.large-text #parent-eta-display,
+body.large-text #driver-name,
+body.large-text #driver-plate,
+body.large-text #logout {
+  font-size: 1.1rem !important;
 }
 
 @media screen and (max-width: 700px){

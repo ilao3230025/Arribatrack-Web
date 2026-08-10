@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARRIBATRACK Settings</title>
+  <link rel="stylesheet" href="CSS/settings.css">
+  <script type="module" src="Javascript/settings.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+
+<body>
+    <!--Auth Loading-->
+    <div id="auth-loading">
+    <p>Loading...</p>
+    </div>
+
+    <!--Navbar-->
+    <nav id="navbar">
+        <ul>
+            <li class="home_li"><a href="arribatrack_dashboard.html">← Back to Dashboard</a></li>
+            <li><button id="logout" class="accent_link">Logout</button></li>
+        </ul>
+    </nav>
+
+    <div id="settings-page">
+        <!--Header-->
+        <div id="settings-header">
+            <h1>Settings</h1>
+            <p id="settings-user-name">Loading...</p>
+        </div>
+
+    <!--Accessibility Section-->
+    <section class="settings-section">
+        <h2>Accessibility</h2>
+
+        <div class="settings-item">
+            <div class="settings-item-info">
+                <h3>Dark Mode</h3>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+
+        <div class="settings-item">
+            <div class="settings-item-info">
+                <h3>Larger Text</h3>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="large-text-toggle">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+    </section>
+
+    <!--Manage Children (Parent Only)-->
+    <section class="settings-section" id="children-section" style="display: none;">
+        <h2>My Children</h2>
+        <p class="section-description">Manage your children assigned to your school service driver.</p>
+
+        <ul id="children-list"></ul>
+
+        <button id="add-child-settings-button" onclick="openAddChildModal()">+ Add Child</button>
+    </section>
+
+    </div>
+
+    <!--Add Child Modal-->
+    <div id="add-child-modal" style="display: none;">
+        <div id="add-child-content">
+            <h2>Add Child</h2>
+
+            <div class="modal-form">
+                <label>Full Name of your Child</label>
+                <input type="text" id="new-child-name" placeholder="e.g. Juan Dela Cruz">
+
+                <label>Grade Level</label>
+                <select id="new-child-grade">
+                    <option value="" disabled selected>Select Grade</option>
+                    <option>Nursery</option>
+                    <option>Kinder</option>
+                    <option>Prep</option>
+                    <option>Grade 1</option>
+                    <option>Grade 2</option>
+                    <option>Grade 3</option>
+                    <option>Grade 4</option>
+                    <option>Grade 5</option>
+                    <option>Grade 6</option>
+                    <option>Grade 7</option>
+                    <option>Grade 8</option>
+                    <option>Grade 9</option>
+                    <option>Grade 10</option>
+                    <option>Grade 11</option>
+                    <option>Grade 12</option>
+                </select>
+
+                <label>Section</label>
+                <input type="text" id="new-child-section" placeholder="e.g. St. John the Baptist">
+            </div>
+
+            <p id="add-child-error" style="color: #e74c3c; display: none;"></p>
+
+            <div id="add-child-buttons">
+                <button id="cancel-add-child" onclick="closeAddChildModal()">Cancel</button>
+                <button id="confirm-add-child" onclick="confirmAddChild()">Add Child</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remove Child Confirmation Modal -->
+    <div id="remove-child-modal" style="display: none;">
+        <div id="remove-child-content">
+            <h2>Remove Child</h2>
+            <p id="remove-child-message"></p>
+            <div id="remove-child-buttons">
+                <button id="cancel-remove-child" onclick="closeRemoveChildModal()">Cancel</button>
+                <button id="confirm-remove-child" onclick="confirmRemoveChild()">Remove</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

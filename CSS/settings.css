@@ -1,0 +1,537 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --accent-color: #354a5f;
+  --base-color: #ffffff;
+  --text-color: #2E2B41;
+  --input-color: #F3F0FF;
+  --border-color: #e0e0e0;
+  --section-bg: #f9f9f9;
+  --font-size-base: 12pt;
+}
+
+/* ── Dark Mode ────────────────────────────────────────────────────────────── */
+body.dark-mode {
+  --base-color: #1a1a2e;
+  --text-color: #e0e0e0;
+  --input-color: #2a2a3e;
+  --border-color: #3a3a5e;
+  --section-bg: #16213e;
+}
+
+/* ── Large Text ───────────────────────────────────────────────────────────── */
+body.large-text {
+  --font-size-base: 15pt;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-family: Poppins, Segoe UI, sans-serif;
+  font-size: var(--font-size-base);
+  color: var(--text-color);
+  transition: font-size 200ms ease;
+}
+
+body {
+  background-color: var(--input-color);
+  min-height: 100vh;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+/* ── Auth Loading ─────────────────────────────────────────────────────────── */
+#auth-loading {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+/* ── Navbar ───────────────────────────────────────────────────────────────── */
+nav {
+  background-color: var(--base-color);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 300ms ease;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+nav .home_li { margin-right: auto; }
+nav li { display: flex; }
+
+nav a {
+  display: flex;
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 1em 2em;
+  transition: background-color 150ms ease;
+  font-size: 0.95rem;
+}
+
+nav a:hover { background-color: var(--accent-color); color: white; }
+
+nav button {
+  display: flex;
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 1em 2em;
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  font-family: Poppins, sans-serif;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+nav button.accent_link {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+nav button:hover { background-color: var(--accent-color); color: white; }
+
+/* ── Settings Page ────────────────────────────────────────────────────────── */
+#settings-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Settings Header ──────────────────────────────────────────────────────── */
+#settings-header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent-color);
+  text-transform: uppercase;
+}
+
+#settings-user-name {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+/* ── Settings Section ─────────────────────────────────────────────────────── */
+.settings-section {
+  background: var(--base-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: background-color 300ms ease;
+}
+
+.settings-section h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-description {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  opacity: 0.6;
+  margin-top: -8px;
+}
+
+/* ── Dark Mode overrides for settings page ────────────────────────────────── */
+body.dark-mode .settings-section {
+  background: #16213e;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .settings-item {
+  border-color: #2a2a3e;
+}
+
+body.dark-mode .settings-item-info h3 {
+  color: #e0e0e0;
+}
+
+body.dark-mode #settings-header h1 {
+  color: #4a6fa5;
+}
+
+body.dark-mode .child-item {
+  background: #2a2a3e;
+}
+
+body.dark-mode .child-item-name {
+  color: #e0e0e0;
+}
+
+body.dark-mode #add-child-content,
+body.dark-mode #remove-child-content {
+  background: #16213e;
+}
+
+body.dark-mode #add-child-content h2,
+body.dark-mode #remove-child-content h2 {
+  color: #4a6fa5;
+}
+
+body.dark-mode #remove-child-content p {
+  color: #e0e0e0;
+}
+
+body.dark-mode .modal-form input,
+body.dark-mode .modal-form select {
+  background: #2a2a3e;
+  border-color: #3a3a5e;
+  color: #e0e0e0;
+}
+
+body.dark-mode .modal-form input::placeholder {
+  color: #e0e0e0;
+  opacity: 0.3;
+}
+
+body.dark-mode #cancel-add-child,
+body.dark-mode #cancel-remove-child {
+  background: #2a2a3e;
+  color: #e0e0e0;
+}
+
+body.dark-mode #cancel-add-child:hover,
+body.dark-mode #cancel-remove-child:hover {
+  background: #3a3a5e;
+}
+
+body.dark-mode nav {
+  background: #16213e;
+  border-color: #2a2a3e;
+}
+
+body.dark-mode nav a,
+body.dark-mode nav button {
+  color: #e0e0e0;
+}
+
+body.dark-mode #settings-page {
+  background: transparent;
+}
+
+/* ── Large text overrides for settings page ───────────────────────────────── */
+body.large-text .settings-item-info h3 { font-size: 1.05rem; }
+body.large-text .settings-item-info p { font-size: 0.9rem; }
+body.large-text .child-item-name { font-size: 1.05rem; }
+body.large-text .child-item-details { font-size: 0.9rem; }
+body.large-text .settings-section h2 { font-size: 1.1rem; }
+
+/* ── Settings Item ────────────────────────────────────────────────────────── */
+.settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-item:last-of-type { border-bottom: none; }
+
+.settings-item-info h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 2px;
+}
+
+.settings-item-info p {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  opacity: 0.55;
+}
+
+/* ── Toggle Switch ────────────────────────────────────────────────────────── */
+.toggle-switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background-color: var(--border-color);
+  border-radius: 28px;
+  transition: 300ms ease;
+}
+
+.toggle-slider:before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 300ms ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: var(--accent-color);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+}
+
+/* ── Children List ────────────────────────────────────────────────────────── */
+#children-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.child-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--input-color);
+  border-radius: 10px;
+  padding: 12px 16px;
+  gap: 12px;
+  transition: background-color 300ms ease;
+}
+
+.child-item-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  flex: 1;
+}
+
+.child-item-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.child-item-details {
+  font-size: 0.8rem;
+  color: var(--text-color);
+  opacity: 0.6;
+}
+
+.remove-child-btn {
+  background: #fdecea;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: #e74c3c;
+  font-family: Poppins, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.remove-child-btn:hover {
+  background: #e74c3c;
+  color: white;
+  text-decoration: none;
+}
+
+#add-child-settings-button {
+  background: none;
+  border: 2px dashed var(--accent-color);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--accent-color);
+  font-family: Poppins, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+  width: 100%;
+  margin-top: 4px;
+}
+
+#add-child-settings-button:hover {
+  background: var(--input-color);
+  text-decoration: none;
+}
+
+/* ── Modals ───────────────────────────────────────────────────────────────── */
+#add-child-modal,
+#remove-child-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+#add-child-content,
+#remove-child-content {
+  background: var(--base-color);
+  border-radius: 16px;
+  padding: 2rem;
+  width: min(420px, 90%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: background-color 300ms ease;
+}
+
+#add-child-content h2,
+#remove-child-content h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin: 0;
+}
+
+#remove-child-content p {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-form label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-color);
+  text-align: left;
+}
+
+.modal-form input,
+.modal-form select {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  background: var(--input-color);
+  color: var(--text-color);
+  transition: 150ms ease;
+  appearance: none;
+}
+
+.modal-form input:focus,
+.modal-form select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.modal-form input::placeholder {
+  color: var(--text-color);
+  opacity: 0.4;
+}
+
+#add-child-buttons,
+#remove-child-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+#cancel-add-child,
+#cancel-remove-child {
+  background: var(--input-color);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: var(--text-color);
+  font-family: Poppins, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+}
+
+#cancel-add-child:hover,
+#cancel-remove-child:hover {
+  background: var(--border-color);
+  text-decoration: none;
+}
+
+#confirm-add-child {
+  background: var(--accent-color);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: white;
+  font-family: Poppins, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+}
+
+#confirm-add-child:hover {
+  background: var(--text-color);
+  text-decoration: none;
+}
+
+#confirm-remove-child {
+  background: #e74c3c;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: white;
+  font-family: Poppins, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+  text-decoration: none;
+}
+
+#confirm-remove-child:hover {
+  background: #c0392b;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  #settings-page { padding: 1.5rem 1rem; }
+  #settings-header h1 { font-size: 1.5rem; }
+}
